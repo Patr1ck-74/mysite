@@ -1,8 +1,8 @@
 {
-  "name": "home",
+  "name": "mysite",
   "author": "imsyy",
-  "github": "https://github.com/imsyy/home",
-  "home": "https://imsyy.top",
+  "github": "https://github.com/Patr1ck-74/mysite",
+  "home": "https://patr1ck.qzz.io",
   "private": true,
   "version": "4.1.4",
   "type": "module",
