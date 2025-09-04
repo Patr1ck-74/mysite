@@ -1,17 +1,17 @@
 [
   {
-    "icon": "TV",
+    "icon": "LiveTvOutlined",
     "name": "影视TV",
     "link": "https://pppatr1ck-axytv.hf.space/"
   },
   {
-    "icon": "Remind",
-    "name": "订阅",
+    "icon": "Reminder",
+    "name": "提醒",
     "link": "https://remind.patr1ck.qzz.io/"
   },
   {
-    "icon": "Enclosed",
-    "name": "互传",
+    "icon": "DriveFileMoveTwotone",
+    "name": "文件分享",
     "link": "https://pppatr1ck-enclosed.hf.space/"
   },
   {
