@@ -10,7 +10,7 @@
           </span>
           {{ fullYear }}
           <!-- 直接显示自定义文字，无绑定 URL -->
-          <span class="custom-author">Shaw</span>
+          <span class="custom-author">SSSS</span>
         </span>
         <!-- 以下信息请不要修改 -->
         <span class="hidden">
