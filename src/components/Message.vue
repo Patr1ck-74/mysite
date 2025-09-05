@@ -5,8 +5,7 @@
     <div class="logo">
       <img class="logo-img" :src="siteLogo" alt="logo" />
       <div :class="{ name: true, 'text-hidden': true, long: siteUrl[0].length >= 6 }">
-        <span class="bg">{{ siteUrl[0] }}</span>
-        <span class="sm">.{{ siteUrl[1] }}</span>
+        <span class="bg">{{ displayDomain }}</span>
       </div>
     </div>
     <!-- 简介 -->
@@ -35,6 +34,9 @@ import { QuoteLeft, QuoteRight } from "@vicons/fa";
 import { Error } from "@icon-park/vue-next";
 import { mainStore } from "@/store";
 const store = mainStore();
+// 手动指定显示的域名文字
+const displayDomain = "Patrick Shaw";  // <-- 这里改成你想显示的
+
 
 // 主页站点logo
 const siteLogo = import.meta.env.VITE_SITE_MAIN_LOGO;
