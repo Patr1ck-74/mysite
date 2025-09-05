@@ -5,17 +5,20 @@
         <span>
           <span :class="startYear < fullYear ? 'c-hidden' : 'hidden'">Copyright&nbsp;</span>
           &copy;
-          <span v-if="startYear < fullYear" class="site-start">
-            {{ startYear }} -
+          <span v-if="startYear < fullYear"
+            class="site-start">
+            {{ startYear }}
+            -
           </span>
           {{ fullYear }}
-          <!-- 直接显示自定义文字，无绑定 URL -->
-          <span class="custom-author">SSSS</span>
+          <a :href="siteUrl">{{ siteAuthor }}</a>
         </span>
-        <!-- 以下信息请不要修改 -->
+        <!-- 以下信息请不要修改哦 -->
         <span class="hidden">
           &amp;&nbsp;Made&nbsp;by
-          <a :href="config.github" target="_blank">{{ config.author }}</a>
+          <a :href="config.github" target="_blank">
+            {{ config.author }}
+          </a>
         </span>
         <!-- 站点备案 -->
         <span>
@@ -39,15 +42,30 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
 import { MusicOne } from "@icon-park/vue-next";
 import { mainStore } from "@/store";
 import config from "@/../package.json";
 
 const store = mainStore();
 const fullYear = new Date().getFullYear();
-const startYear = ref(import.meta.env.VITE_SITE_START?.substring(0, 4) || null);
+
+// 加载配置数据
+// const siteStartDate = ref(import.meta.env.VITE_SITE_START);
+const startYear = ref(
+  import.meta.env.VITE_SITE_START?.length >= 4 ? 
+  import.meta.env.VITE_SITE_START.substring(0, 4) : null
+);
 const siteIcp = ref(import.meta.env.VITE_SITE_ICP);
+const siteAuthor = ref(import.meta.env.VITE_SITE_AUTHOR);
+const siteUrl = computed(() => {
+  const url = import.meta.env.VITE_SITE_URL;
+  if (!url) return "https://www.imsyy.top";
+  // 判断协议前缀
+  if (!url.startsWith("http://") && !url.startsWith("https://")) {
+    return "//" + url;
+  }
+  return url;
+});
 </script>
 
 <style lang="scss" scoped>
@@ -61,18 +79,12 @@ const siteIcp = ref(import.meta.env.VITE_SITE_ICP);
   text-align: center;
   z-index: 0;
   font-size: 14px;
+  // 文字不换行
   word-break: keep-all;
   white-space: nowrap;
-
   .power {
     animation: fade 0.3s;
   }
-
-  .custom-author {
-    margin-left: 4px;
-    font-weight: bold;
-  }
-
   .lrc {
     padding: 0 20px;
     display: flex;
@@ -95,31 +107,26 @@ const siteIcp = ref(import.meta.env.VITE_SITE_ICP);
       }
     }
   }
-
   &.blur {
     backdrop-filter: blur(10px);
     background: rgb(0 0 0 / 25%);
     font-size: 16px;
   }
-
   .fade-enter-active,
   .fade-leave-active {
     transition: opacity 0.15s ease-in-out;
   }
-
   @media (max-width: 720px) {
     font-size: 0.9rem;
     &.blur {
       font-size: 0.9rem;
     }
   }
-
   @media (max-width: 560px) {
     .c-hidden {
       display: none;
     }
   }
-
   @media (max-width: 480px) {
     .hidden {
       display: none;
