@@ -34,7 +34,7 @@ import { QuoteLeft, QuoteRight } from "@vicons/fa";
 import { Error } from "@icon-park/vue-next";
 import { mainStore } from "@/store";
 const store = mainStore();
-const displayDomain = "Shaw"; // 你想显示的文字
+const displayDomain = "AiYi"; // 你想显示的文字
 
 
 // 主页站点logo
