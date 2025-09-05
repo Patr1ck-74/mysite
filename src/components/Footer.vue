@@ -58,14 +58,7 @@ const startYear = ref(
 const siteIcp = ref(import.meta.env.VITE_SITE_ICP);
 const siteAuthor = ref(import.meta.env.VITE_SITE_AUTHOR);
 const siteUrl = computed(() => {
-  const url = import.meta.env.VITE_SITE_URL;
-  if (!url) return "https://patr1ck.cloudns.org";
-  // 判断协议前缀
-  if (!url.startsWith("http://") && !url.startsWith("https://")) {
-    return "//" + url;
-  }
-  return url;
-});
+  const siteUrl = ref("Patrick Shaw");
 </script>
 
 <style lang="scss" scoped>
