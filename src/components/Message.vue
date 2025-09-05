@@ -4,10 +4,9 @@
     <!-- Logo -->
     <div class="logo">
       <img class="logo-img" :src="siteLogo" alt="logo" />
-      <div :class="{ name: true, 'text-hidden': true, long: siteUrl[0].length >= 6 }">
-        <span class="bg">{{ siteUrl[0] }}</span>
-        <span class="sm">.{{ siteUrl[1] }}</span>
-      </div>
+        <div class="name text-hidden">
+          <span class="bg">{{ displayDomain }}</span>
+        </div>
     </div>
     <!-- 简介 -->
     <div class="description cards" @click="changeBox">
@@ -35,6 +34,8 @@ import { QuoteLeft, QuoteRight } from "@vicons/fa";
 import { Error } from "@icon-park/vue-next";
 import { mainStore } from "@/store";
 const store = mainStore();
+const displayDomain = "Patrick Shaw"; // 你想显示的文字
+
 
 // 主页站点logo
 const siteLogo = import.meta.env.VITE_SITE_MAIN_LOGO;
