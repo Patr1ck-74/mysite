@@ -4,9 +4,10 @@
     <!-- Logo -->
     <div class="logo">
       <img class="logo-img" :src="siteLogo" alt="logo" />
-        <div class="name text-hidden">
-          <span class="bg">{{ displayDomain }}</span>
-        </div>
+      <div class="name text-hidden">
+        <!-- 新增渐变效果 -->
+        <span class="bg gradient-text">{{ displayDomain }}</span>
+      </div>
     </div>
     <!-- 简介 -->
     <div class="description cards" @click="changeBox">
@@ -33,17 +34,17 @@ import { Icon } from "@vicons/utils";
 import { QuoteLeft, QuoteRight } from "@vicons/fa";
 import { Error } from "@icon-park/vue-next";
 import { mainStore } from "@/store";
+
 const store = mainStore();
 const displayDomain = "AiYi"; // 你想显示的文字
 
-
 // 主页站点logo
 const siteLogo = import.meta.env.VITE_SITE_MAIN_LOGO;
+
 // 站点链接
 const siteUrl = computed(() => {
   const url = import.meta.env.VITE_SITE_URL;
   if (!url) return "imsyy.top".split(".");
-  // 判断协议前缀
   if (url.startsWith("http://") || url.startsWith("https://")) {
     const urlFormat = url.replace(/^(https?:\/\/)/, "");
     return urlFormat.split(".");
@@ -96,10 +97,12 @@ watch(
     align-items: center;
     animation: fade 0.5s;
     max-width: 460px;
+
     .logo-img {
       border-radius: 50%;
       width: 120px;
     }
+
     .name {
       width: 100%;
       padding-left: 22px;
@@ -109,15 +112,8 @@ watch(
       .bg {
         font-size: 5rem;
       }
-
-      .sm {
-        margin-left: 6px;
-        font-size: 2rem;
-        @media (min-width: 721px) and (max-width: 789px) {
-          display: none;
-        }
-      }
     }
+
     @media (max-width: 768px) {
       .logo-img {
         width: 100px;
@@ -162,33 +158,36 @@ watch(
         align-self: flex-end;
       }
     }
+
     @media (max-width: 720px) {
       max-width: 100%;
       pointer-events: none;
     }
   }
-  // @media (max-width: 390px) {
-  //   .logo {
-  //     flex-direction: column;
-  //     .logo-img {
-  //       display: none;
-  //     }
-  //     .name {
-  //       margin-left: 0;
-  //       height: auto;
-  //       transform: none;
-  //       text-align: center;
-  //       .bg {
-  //         font-size: 3.5rem;
-  //       }
-  //       .sm {
-  //         font-size: 1.4rem;
-  //       }
-  //     }
-  //   }
-  //   .description {
-  //     margin-top: 2.5rem;
-  //   }
-  // }
+}
+
+/* 新增文字动态渐变效果 */
+.gradient-text {
+  background: linear-gradient(
+    270deg,
+    #ff0000,  /* 红 */
+    #ff7f00,  /* 橙 */
+    #ffff00,  /* 黄 */
+    #00ff00,  /* 绿 */
+    #0000ff,  /* 蓝 */
+    #4b0082,  /* 靛 */
+    #8b00ff,  /* 紫 */
+    #ff0000   /* 回到红 */
+  );
+  background-size: 1600% 1600%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient 10s ease infinite;
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 </style>
