@@ -5,8 +5,10 @@
     <div class="logo">
       <img class="logo-img" :src="siteLogo" alt="logo" />
       <div class="name text-hidden">
-        <!-- 新增渐变效果 -->
-        <span class="bg gradient-text">{{ displayDomain }}</span>
+        <!-- 渐变文字，每字独立span -->
+        <span class="bg gradient-text">
+          <span v-for="(char, index) in displayDomain.split('')" :key="index" class="char">{{ char }}</span>
+        </span>
       </div>
     </div>
     <!-- 简介 -->
@@ -166,28 +168,26 @@ watch(
   }
 }
 
-/* 新增文字动态渐变效果 */
-.gradient-text {
-  background: linear-gradient(
-    270deg,
-    #ff0000,  /* 红 */
-    #ff7f00,  /* 橙 */
-    #ffff00,  /* 黄 */
-    #00ff00,  /* 绿 */
-    #0000ff,  /* 蓝 */
-    #4b0082,  /* 靛 */
-    #8b00ff,  /* 紫 */
-    #ff0000   /* 回到红 */
-  );
-  background-size: 1600% 1600%;
+/* 每字渐变+多彩闪烁效果 */
+.gradient-text .char {
+  display: inline-block;
+  background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff, #ff0000);
+  background-size: 400% 400%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: gradient 10s ease infinite;
+  animation: gradientMove 5s ease infinite, flicker 2s infinite;
 }
 
-@keyframes gradient {
+/* 渐变移动 */
+@keyframes gradientMove {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
+}
+
+/* 文字闪烁 */
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+  20%, 22%, 24%, 55% { opacity: 0.4; }
 }
 </style>
