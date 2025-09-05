@@ -9,14 +9,16 @@
             {{ startYear }} -
           </span>
           {{ fullYear }}
-          <!-- 直接显示自定义文字，无绑定 URL -->
+          <!-- 这里直接写你自定义的文字 -->
           <span class="custom-author">Patrick Shaw</span>
         </span>
+
         <!-- 以下信息请不要修改 -->
         <span class="hidden">
           &amp;&nbsp;Made&nbsp;by
           <a :href="config.github" target="_blank">{{ config.author }}</a>
         </span>
+
         <!-- 站点备案 -->
         <span>
           &amp;
@@ -25,6 +27,7 @@
           </a>
         </span>
       </div>
+
       <div v-else class="lrc">
         <Transition name="fade" mode="out-in">
           <div class="lrc-all" :key="store.getPlayerLrc">
@@ -50,7 +53,7 @@ const startYear = ref(import.meta.env.VITE_SITE_START?.substring(0, 4) || null);
 const siteIcp = ref(import.meta.env.VITE_SITE_ICP);
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 #footer {
   width: 100%;
   position: absolute;
@@ -59,14 +62,8 @@ const siteIcp = ref(import.meta.env.VITE_SITE_ICP);
   height: 46px;
   line-height: 46px;
   text-align: center;
-  z-index: 0;
   font-size: 14px;
-  word-break: keep-all;
   white-space: nowrap;
-
-  .power {
-    animation: fade 0.3s;
-  }
 
   .custom-author {
     margin-left: 4px;
@@ -74,56 +71,14 @@ const siteIcp = ref(import.meta.env.VITE_SITE_ICP);
   }
 
   .lrc {
-    padding: 0 20px;
     display: flex;
-    flex-direction: row;
-    align-items: center;
     justify-content: center;
-    .lrc-all {
-      width: 98%;
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      .lrc-text {
-        margin: 0 8px;
-      }
-      .i-icon {
-        width: 18px;
-        height: 18px;
-        display: inherit;
-      }
-    }
+    align-items: center;
   }
 
   &.blur {
     backdrop-filter: blur(10px);
-    background: rgb(0 0 0 / 25%);
-    font-size: 16px;
-  }
-
-  .fade-enter-active,
-  .fade-leave-active {
-    transition: opacity 0.15s ease-in-out;
-  }
-
-  @media (max-width: 720px) {
-    font-size: 0.9rem;
-    &.blur {
-      font-size: 0.9rem;
-    }
-  }
-
-  @media (max-width: 560px) {
-    .c-hidden {
-      display: none;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .hidden {
-      display: none;
-    }
+    background: rgba(0,0,0,0.25);
   }
 }
 </style>
