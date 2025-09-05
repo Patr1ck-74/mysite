@@ -7,10 +7,18 @@
       <div class="name text-hidden">
         <!-- 渐变文字，每字独立span -->
         <span class="bg gradient-text">
-          <span v-for="(char, index) in displayDomain.split('')" :key="index" class="char">{{ char }}</span>
+          <span 
+            v-for="(char, index) in displayDomain.split('')" 
+            :key="index" 
+            class="char"
+            :style="{ 'animation-delay': `${index * 0.2}s` }"
+          >
+            {{ char }}
+          </span>
         </span>
       </div>
     </div>
+
     <!-- 简介 -->
     <div class="description cards" @click="changeBox">
       <div class="content">
@@ -38,7 +46,7 @@ import { Error } from "@icon-park/vue-next";
 import { mainStore } from "@/store";
 
 const store = mainStore();
-const displayDomain = "AiYi"; // 你想显示的文字
+const displayDomain = "AiYi"; // 可自定义显示文字
 
 // 主页站点logo
 const siteLogo = import.meta.env.VITE_SITE_MAIN_LOGO;
@@ -48,8 +56,7 @@ const siteUrl = computed(() => {
   const url = import.meta.env.VITE_SITE_URL;
   if (!url) return "imsyy.top".split(".");
   if (url.startsWith("http://") || url.startsWith("https://")) {
-    const urlFormat = url.replace(/^(https?:\/\/)/, "");
-    return urlFormat.split(".");
+    return url.replace(/^(https?:\/\/)/, "").split(".");
   }
   return url.split(".");
 });
@@ -113,6 +120,8 @@ watch(
 
       .bg {
         font-size: 5rem;
+        display: flex;
+        flex-wrap: wrap;
       }
     }
 
@@ -171,7 +180,10 @@ watch(
 /* 每字渐变效果 */
 .gradient-text .char {
   display: inline-block;
-  background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff, #ff0000);
+  background: linear-gradient(
+    90deg,
+    #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff, #ff0000
+  );
   background-size: 400% 400%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
