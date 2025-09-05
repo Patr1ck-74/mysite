@@ -9,8 +9,8 @@
             {{ startYear }} -
           </span>
           {{ fullYear }}
-          <!-- 自定义显示文字 -->
-          <a :href="siteUrl">{{ siteAuthor }}</a>
+          <!-- 直接显示自定义文字，无绑定 URL -->
+          <span class="custom-author">Patrick Shaw</span>
         </span>
         <!-- 以下信息请不要修改 -->
         <span class="hidden">
@@ -48,10 +48,6 @@ const store = mainStore();
 const fullYear = new Date().getFullYear();
 const startYear = ref(import.meta.env.VITE_SITE_START?.substring(0, 4) || null);
 const siteIcp = ref(import.meta.env.VITE_SITE_ICP);
-
-// 自定义显示的文字
-const siteAuthor = ref("Patrick Shaw"); // 时钟旁边显示的文字
-const siteUrl = ref("#");               // 可以自定义链接，如果不需要可用 "#"
 </script>
 
 <style lang="scss" scoped>
@@ -70,6 +66,11 @@ const siteUrl = ref("#");               // 可以自定义链接，如果不需�
 
   .power {
     animation: fade 0.3s;
+  }
+
+  .custom-author {
+    margin-left: 4px;
+    font-weight: bold;
   }
 
   .lrc {
