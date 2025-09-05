@@ -168,26 +168,20 @@ watch(
   }
 }
 
-/* 每字渐变+多彩闪烁效果 */
+/* 每字渐变效果 */
 .gradient-text .char {
   display: inline-block;
   background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff, #ff0000);
   background-size: 400% 400%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: gradientMove 5s ease infinite, flicker 2s infinite;
+  animation: gradientMove 10s ease infinite;
 }
 
-/* 渐变移动 */
+/* 渐变移动动画 */
 @keyframes gradientMove {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
-}
-
-/* 文字闪烁 */
-@keyframes flicker {
-  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
-  20%, 22%, 24%, 55% { opacity: 0.4; }
 }
 </style>
