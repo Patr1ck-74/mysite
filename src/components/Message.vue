@@ -4,9 +4,10 @@
     <!-- Logo -->
     <div class="logo">
       <img class="logo-img" :src="siteLogo" alt="logo" />
-      <div :class="{ name: true, 'text-hidden': true, long: siteUrl[0].length >= 6 }">
-        <span class="bg">{{ displayDomain }}</span>
-      </div>
+        <div class="name text-hidden">
+          <span class="bg">{{ displayDomain }}</span>
+        </div>
+
     </div>
     <!-- 简介 -->
     <div class="description cards" @click="changeBox">
