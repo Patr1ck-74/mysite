@@ -63,6 +63,7 @@
             :songId="playerData.id"
             :volume="volumeNum"
             :lyric="store.getPlayerData.lyric"
+            :br="playerData.br"
           />
         </div>
       </Transition>
@@ -95,6 +96,7 @@ const playerData = reactive({
   server: import.meta.env.VITE_SONG_SERVER,
   type: "",
   id: "",
+  br: import.meta.env.VITE_SONG_BR || 320,
 });
 
 // -------------------------
@@ -106,7 +108,6 @@ const fetchHotSong = async () => {
     const source = sources[Math.floor(Math.random() * sources.length)];
     const keyword = import.meta.env.VITE_SONG_KEYWORD || "热门";
     const count = import.meta.env.VITE_SONG_COUNT || 100;
-    const br = import.meta.env.VITE_SONG_BR || 999;
 
     const url = `${import.meta.env.VITE_SONG_SERVER}?types=search&source=${source}&name=${keyword}&count=${count}&pages=1`;
     const res = await fetch(url);
@@ -114,11 +115,12 @@ const fetchHotSong = async () => {
     if (data && data.length > 0) {
       const song = data[Math.floor(Math.random() * data.length)];
 
-      // 填充播放器数据
+      // ⚠️ 仅赋值 type/id/br，Player.vue 会自动调用API获取播放URL
       playerData.type = song.source;
       playerData.id = song.id;
+      playerData.br = import.meta.env.VITE_SONG_BR || 320;
 
-      // 更新 store
+      // 更新 store 用于显示名称和歌手
       store.getPlayerData = {
         name: song.name,
         artist: song.artist,
@@ -132,7 +134,7 @@ const fetchHotSong = async () => {
         store.getPlayerData.lyric = lyricData?.lyric || "";
       }
 
-      // 加载歌曲到 Player.vue
+      // 调用 Player.vue 加载歌曲
       playerRef.value.loadSong && playerRef.value.loadSong(playerData);
     }
   } catch (err) {
