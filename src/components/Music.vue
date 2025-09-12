@@ -106,6 +106,7 @@ const fetchHotSong = async () => {
     const source = sources[Math.floor(Math.random() * sources.length)];
     const keyword = import.meta.env.VITE_SONG_KEYWORD || "热门";
     const count = import.meta.env.VITE_SONG_COUNT || 100;
+    const br = import.meta.env.VITE_SONG_BR || 999;
 
     const url = `${import.meta.env.VITE_SONG_SERVER}?types=search&source=${source}&name=${keyword}&count=${count}&pages=1`;
     const res = await fetch(url);
