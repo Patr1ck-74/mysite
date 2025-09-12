@@ -98,30 +98,44 @@ const playerData = reactive({
 });
 
 // -------------------------
-// 随机热歌逻辑
+// 热门歌曲获取（GD Studio API）
 // -------------------------
-const fetchRandomHotSong = async () => {
+const fetchHotSong = async () => {
   try {
-    const typeList = (import.meta.env.VITE_SONG_TYPE || "netease,kuwo").split(",");
-    const type = typeList[Math.floor(Math.random() * typeList.length)];
+    const sources = (import.meta.env.VITE_SONG_SOURCE || "netease,kuwo").split(",");
+    const source = sources[Math.floor(Math.random() * sources.length)];
+    const keyword = import.meta.env.VITE_SONG_KEYWORD || "热门";
     const count = import.meta.env.VITE_SONG_COUNT || 100;
-    const name = import.meta.env.VITE_SONG_NAME || "热门";
 
-    const url = `${import.meta.env.VITE_SONG_SERVER}?types=search&source=${type}&name=${name}&count=${count}`;
+    const url = `${import.meta.env.VITE_SONG_SERVER}?types=search&source=${source}&name=${keyword}&count=${count}&pages=1`;
     const res = await fetch(url);
     const data = await res.json();
     if (data && data.length > 0) {
       const song = data[Math.floor(Math.random() * data.length)];
-      playerData.type = type;
+
+      // 填充播放器数据
+      playerData.type = song.source;
       playerData.id = song.id;
+
+      // 更新 store
       store.getPlayerData = {
         name: song.name,
         artist: song.artist,
-        lyric: song.lyric || "",
+        lyric: "",
       };
+
+      // 获取歌词
+      if (song.lyric_id) {
+        const lyricRes = await fetch(`${import.meta.env.VITE_SONG_SERVER}?types=lyric&source=${song.source}&id=${song.lyric_id}`);
+        const lyricData = await lyricRes.json();
+        store.getPlayerData.lyric = lyricData?.lyric || "";
+      }
+
+      // 加载歌曲到 Player.vue
+      playerRef.value.loadSong && playerRef.value.loadSong(playerData);
     }
   } catch (err) {
-    console.error("获取随机热歌失败:", err);
+    console.error("获取热门歌曲失败", err);
   }
 };
 
@@ -142,20 +156,16 @@ const changePlayState = () => {
   playerRef.value.playToggle();
 };
 
-const changeMusicIndex = async (type) => {
-  if (type === 0) {
-    playerRef.value.changeSong(-1);
-  } else if (type === 1) {
-    await fetchRandomHotSong();
-    playerRef.value.changeSong(1);
-  }
+const changeMusicIndex = (type) => {
+  if (type === 0) playerRef.value.changeSong(-1);
+  else if (type === 1) playerRef.value.changeSong(1);
 };
 
 // -------------------------
 // 生命周期
 // -------------------------
 onMounted(async () => {
-  await fetchRandomHotSong();
+  await fetchHotSong();
 
   window.addEventListener("keydown", (e) => {
     if (!store.musicIsOk) return;
