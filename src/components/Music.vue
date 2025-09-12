@@ -43,6 +43,7 @@
       </div>
     </div>
   </div>
+
   <!-- 音乐列表弹窗 -->
   <Transition name="fade" mode="out-in">
     <div class="music-list" v-show="musicListShow" @click="closeMusicList()">
@@ -61,6 +62,7 @@
             :songType="playerData.type"
             :songId="playerData.id"
             :volume="volumeNum"
+            :lyric="store.getPlayerData.lyric"
           />
         </div>
       </Transition>
@@ -81,65 +83,95 @@ import {
 } from "@icon-park/vue-next";
 import Player from "@/components/Player.vue";
 import { mainStore } from "@/store";
+import { ref, reactive, onMounted, watch } from "vue";
+
 const store = mainStore();
-
-// 音量条数据
 const volumeShow = ref(false);
-const volumeNum = ref(store.musicVolume ? store.musicVolume : 0.7);
-
-// 播放列表数据
+const volumeNum = ref(store.musicVolume || 0.7);
 const musicListShow = ref(false);
 const playerRef = ref(null);
+
 const playerData = reactive({
   server: import.meta.env.VITE_SONG_SERVER,
-  type: import.meta.env.VITE_SONG_TYPE,
-  id: import.meta.env.VITE_SONG_ID,
+  type: "",
+  id: "",
 });
 
-// 开启播放列表
+// -------------------------
+// 随机热歌逻辑
+// -------------------------
+const fetchRandomHotSong = async () => {
+  try {
+    const typeList = (import.meta.env.VITE_SONG_TYPE || "netease,kuwo").split(",");
+    const type = typeList[Math.floor(Math.random() * typeList.length)];
+    const count = import.meta.env.VITE_SONG_COUNT || 100;
+    const name = import.meta.env.VITE_SONG_NAME || "热门";
+
+    const url = `${import.meta.env.VITE_SONG_SERVER}?types=search&source=${type}&name=${name}&count=${count}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data && data.length > 0) {
+      const song = data[Math.floor(Math.random() * data.length)];
+      playerData.type = type;
+      playerData.id = song.id;
+      store.getPlayerData = {
+        name: song.name,
+        artist: song.artist,
+        lyric: song.lyric || "",
+      };
+    }
+  } catch (err) {
+    console.error("获取随机热歌失败:", err);
+  }
+};
+
+// -------------------------
+// 播放列表控制
+// -------------------------
 const openMusicList = () => {
   musicListShow.value = true;
   playerRef.value.toggleList();
 };
 
-// 关闭播放列表
 const closeMusicList = () => {
   musicListShow.value = false;
   playerRef.value.toggleList();
 };
 
-// 音乐播放暂停
 const changePlayState = () => {
   playerRef.value.playToggle();
 };
 
-// 音乐上下曲
-const changeMusicIndex = (type) => {
-  playerRef.value.changeSong(type);
+const changeMusicIndex = async (type) => {
+  if (type === 0) {
+    playerRef.value.changeSong(-1);
+  } else if (type === 1) {
+    await fetchRandomHotSong();
+    playerRef.value.changeSong(1);
+  }
 };
 
-onMounted(() => {
-  // 空格键事件
+// -------------------------
+// 生命周期
+// -------------------------
+onMounted(async () => {
+  await fetchRandomHotSong();
+
   window.addEventListener("keydown", (e) => {
-    if (!store.musicIsOk) {
-      return;
-    }
-    if (e.code == "Space") {
-      changePlayState();
-    }
+    if (!store.musicIsOk) return;
+    if (e.code === "Space") changePlayState();
   });
-  // 挂载方法至 window
+
   window.$openList = openMusicList;
 });
 
-// 监听音量变化
-watch(
-  () => volumeNum.value,
-  (value) => {
-    store.musicVolume = value;
-    playerRef.value.changeVolume(store.musicVolume);
-  },
-);
+// -------------------------
+// 音量监听
+// -------------------------
+watch(() => volumeNum.value, (value) => {
+  store.musicVolume = value;
+  playerRef.value.changeVolume(store.musicVolume);
+});
 </script>
 
 <style lang="scss" scoped>
@@ -193,7 +225,6 @@ watch(
       border-radius: 6px;
       align-items: center;
       justify-content: center;
-      border-radius: 6px;
       transform: scale(1);
       &:hover {
         background: #ffffff33;
