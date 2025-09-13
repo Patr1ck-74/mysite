@@ -43,7 +43,6 @@
       </div>
     </div>
   </div>
-
   <!-- 音乐列表弹窗 -->
   <Transition name="fade" mode="out-in">
     <div class="music-list" v-show="musicListShow" @click="closeMusicList()">
@@ -62,8 +61,6 @@
             :songType="playerData.type"
             :songId="playerData.id"
             :volume="volumeNum"
-            :lyric="store.getPlayerData.lyric"
-            :br="playerData.br"
           />
         </div>
       </Transition>
@@ -84,107 +81,65 @@ import {
 } from "@icon-park/vue-next";
 import Player from "@/components/Player.vue";
 import { mainStore } from "@/store";
-import { ref, reactive, onMounted, watch } from "vue";
-
 const store = mainStore();
+
+// 音量条数据
 const volumeShow = ref(false);
-const volumeNum = ref(store.musicVolume || 0.7);
+const volumeNum = ref(store.musicVolume ? store.musicVolume : 0.7);
+
+// 播放列表数据
 const musicListShow = ref(false);
 const playerRef = ref(null);
-
 const playerData = reactive({
   server: import.meta.env.VITE_SONG_SERVER,
-  type: "",
-  id: "",
-  br: import.meta.env.VITE_SONG_BR || 320,
+  type: import.meta.env.VITE_SONG_TYPE,
+  id: import.meta.env.VITE_SONG_ID,
 });
 
-// -------------------------
-// 热门歌曲获取（GD Studio API）
-// -------------------------
-const fetchHotSong = async () => {
-  try {
-    const sources = (import.meta.env.VITE_SONG_SOURCE || "netease,kuwo").split(",");
-    const source = sources[Math.floor(Math.random() * sources.length)];
-    const keyword = import.meta.env.VITE_SONG_KEYWORD || "热门";
-    const count = import.meta.env.VITE_SONG_COUNT || 100;
-
-    const url = `${import.meta.env.VITE_SONG_SERVER}?types=search&source=${source}&name=${keyword}&count=${count}&pages=1`;
-    const res = await fetch(url);
-    const data = await res.json();
-    if (data && data.length > 0) {
-      const song = data[Math.floor(Math.random() * data.length)];
-
-      // ⚠️ 仅赋值 type/id/br，Player.vue 会自动调用API获取播放URL
-      playerData.type = song.source;
-      playerData.id = song.id;
-      playerData.br = import.meta.env.VITE_SONG_BR || 320;
-
-      // 更新 store 用于显示名称和歌手
-      store.getPlayerData = {
-        name: song.name,
-        artist: song.artist,
-        lyric: "",
-      };
-
-      // 获取歌词
-      if (song.lyric_id) {
-        const lyricRes = await fetch(`${import.meta.env.VITE_SONG_SERVER}?types=lyric&source=${song.source}&id=${song.lyric_id}`);
-        const lyricData = await lyricRes.json();
-        store.getPlayerData.lyric = lyricData?.lyric || "";
-      }
-
-      // 调用 Player.vue 加载歌曲
-      playerRef.value.loadSong && playerRef.value.loadSong(playerData);
-    }
-  } catch (err) {
-    console.error("获取热门歌曲失败", err);
-  }
-};
-
-// -------------------------
-// 播放列表控制
-// -------------------------
+// 开启播放列表
 const openMusicList = () => {
   musicListShow.value = true;
   playerRef.value.toggleList();
 };
 
+// 关闭播放列表
 const closeMusicList = () => {
   musicListShow.value = false;
   playerRef.value.toggleList();
 };
 
+// 音乐播放暂停
 const changePlayState = () => {
   playerRef.value.playToggle();
 };
 
+// 音乐上下曲
 const changeMusicIndex = (type) => {
-  if (type === 0) playerRef.value.changeSong(-1);
-  else if (type === 1) playerRef.value.changeSong(1);
+  playerRef.value.changeSong(type);
 };
 
-// -------------------------
-// 生命周期
-// -------------------------
-onMounted(async () => {
-  await fetchHotSong();
-
+onMounted(() => {
+  // 空格键事件
   window.addEventListener("keydown", (e) => {
-    if (!store.musicIsOk) return;
-    if (e.code === "Space") changePlayState();
+    if (!store.musicIsOk) {
+      return;
+    }
+    if (e.code == "Space") {
+      changePlayState();
+    }
   });
-
+  // 挂载方法至 window
   window.$openList = openMusicList;
 });
 
-// -------------------------
-// 音量监听
-// -------------------------
-watch(() => volumeNum.value, (value) => {
-  store.musicVolume = value;
-  playerRef.value.changeVolume(store.musicVolume);
-});
+// 监听音量变化
+watch(
+  () => volumeNum.value,
+  (value) => {
+    store.musicVolume = value;
+    playerRef.value.changeVolume(store.musicVolume);
+  },
+);
 </script>
 
 <style lang="scss" scoped>
@@ -238,6 +193,7 @@ watch(() => volumeNum.value, (value) => {
       border-radius: 6px;
       align-items: center;
       justify-content: center;
+      border-radius: 6px;
       transform: scale(1);
       &:hover {
         background: #ffffff33;
