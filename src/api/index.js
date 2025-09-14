@@ -1,28 +1,5 @@
 // import axios from "axios";
 import fetchJsonp from "fetch-jsonp";
-import { gwg } from "@/utils/authServer";
-
-/**
- * JSONP 请求模块
- */
-// JSONP 请求函数，并返回 JSON 【关于为什么要有这个呢...请腾讯自觉扫一下（x）】
-const loadJSONP = (url, callbackName) => {
-  return new Promise((resolve, reject) => {
-    // 定义 JSONP 回调函数
-    (window as any)[callbackName] = (data: any) => {
-      resolve(data); // 解析 JSON 数据
-      delete (window as any)[callbackName]; // 清理全局变量，防止污染
-    };
-    // 创建 script 标签
-    const script = document.createElement('script');
-    script.src = url;
-    script.onerror = () => {
-      reject(new Error('JSONP 请求失败'));
-      delete (window as any)[callbackName]; // 出错时也要清理
-    };
-    document.body.appendChild(script);
-  });
-};
 
 /**
  * 音乐播放器
