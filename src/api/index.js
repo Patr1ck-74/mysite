@@ -53,18 +53,15 @@ export const getHitokoto = async () => {
  * 天气
  */
 
-// 腾讯 Key 从 .env 读取
-const TX_KEY = import.meta.env.VITE_TXMAP_KEY;
-
 // 获取腾讯地理位置信息（JSONP）
 export const getTXAdcode = async () => {
-  const url = `https://apis.map.qq.com/ws/location/v1/ip?key=${TX_KEY}`;
+  const url = `https://apis.map.qq.com/ws/location/v1/ip?key=${key}`;
   return await fetchJsonp(url).then((res) => res.json());
 };
 
 // 获取腾讯地理天气信息（JSONP）
 export const getTXWeather = async (location) => {
-  const url = `https://apis.map.qq.com/ws/weather/v1/?key=${TX_KEY}&location=${location}&type=now`;
+  const url = `https://apis.map.qq.com/ws/weather/v1/?key=${key}&location=${location}&type=now`;
   return await fetchJsonp(url).then((res) => res.json());
 };
 
