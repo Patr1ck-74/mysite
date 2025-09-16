@@ -45,8 +45,11 @@ const changeBg = (type) => {
   } else if (type == 2) {
     bgUrl.value = "http://api.xingchenfu.xyz/API/cgq4kjsdt.php";
   } else if (type == 3) {
-    bgUrl.value = "https://api.icofun.cn/api/loveanimer.php?screen=1&format=1&type=url";
-  }
+  fetch("https://api.icofun.cn/api/loveanimer.php?screen=1&format=1&type=url")
+    .then(res => res.text())         // 获取 API 返回的 URL 文本
+    .then(url => {
+      bgUrl.value = url;             // 赋给 <img> 显示
+    }
 };
 
 // 图片加载完成
