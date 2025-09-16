@@ -50,8 +50,8 @@ const changeBg = (type) => {
     .then(url => {
       bgUrl.value = url; // 赋给 <img> 显示
     })
+}
 };
-
 // 图片加载完成
 const imgLoadComplete = () => {
   imgTimeout.value = setTimeout(
