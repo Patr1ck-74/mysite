@@ -43,9 +43,9 @@ const changeBg = (type) => {
   } else if (type == 1) {
     bgUrl.value = "https://www.hhlqilongzhu.cn/api/tu_yitu.php";
   } else if (type == 2) {
-    bgUrl.value = "https://api.vvhan.com/api/wallpaper/views";
+    bgUrl.value = "http://api.xingchenfu.xyz/API/cgq4kjsdt.php";
   } else if (type == 3) {
-    bgUrl.value = "https://api.vvhan.com/api/wallpaper/acg";
+    bgUrl.value = "https://api.icofun.cn/api/loveanimer.php?screen=1&format=1&type=url";
   }
 };
 
