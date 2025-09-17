@@ -38,23 +38,19 @@ const bgRandom = Math.floor(Math.random() * 12 + 1);
 
 // 更换壁纸链接
 const changeBg = (type) => {
-  if (type === 0) {
-    setBg(`/images/background${bgRandom}.jpg`);
-  } else if (type === 1) {
-    setBg("https://www.hhlqilongzhu.cn/api/tu_yitu.php");
-  } else if (type === 2) {
-    setBg("http://api.xingchenfu.xyz/API/cgq4kjsdt.php");
-  } else if (type === 3) {
-    fetch("https://api.xiaoxing.site/api/loveanimer/api.php?screen=1&format=1&type=url")
-      .then(res => res.text())
-      .then(url => {
-        setBg(url.trim());
-      })
-      .catch(err => {
-        console.error("获取壁纸失败:", err);
-        setBg(`/images/background${bgRandom}.jpg`);
-      });
-  }
+  if (type == 0) {
+    bgUrl.value = `/images/background${bgRandom}.jpg`;
+  } else if (type == 1) {
+    bgUrl.value = "https://www.hhlqilongzhu.cn/api/tu_yitu.php";
+  } else if (type == 2) {
+    bgUrl.value = "http://api.xingchenfu.xyz/API/cgq4kjsdt.php";
+  } else if (type == 3) {
+  fetch("https://api.xiaoxing.site/api/loveanimer/api.php?screen=1&format=1&type=url")
+    .then(res => res.text())
+    .then(url => {
+      bgUrl.value = url.trim(); 
+    })
+}
 };
 
 // 图片加载完成
