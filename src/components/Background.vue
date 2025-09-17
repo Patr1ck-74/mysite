@@ -36,7 +36,7 @@ const emit = defineEmits(["loadComplete"]);
 // 请依据文件夹内的图片个数修改 Math.random() 后面的第一个数字
 const bgRandom = Math.floor(Math.random() * 12 + 1);
 
-// 更换壁纸链接
+// 更换壁纸
 const changeBg = (type) => {
   if (type == 0) {
     bgUrl.value = `/images/background${bgRandom}.jpg`;
@@ -45,13 +45,24 @@ const changeBg = (type) => {
   } else if (type == 2) {
     bgUrl.value = "http://api.xingchenfu.xyz/API/cgq4kjsdt.php";
   } else if (type == 3) {
-  fetch("https://api.xiaoxing.site/api/loveanimer/api.php?screen=1&format=1&type=url")
-    .then(res => res.text())
-    .then(url => {
-      bgUrl.value = url.trim(); 
+    // fetch 增加超时和错误处理
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000); // 5 秒超时
+
+    fetch("https://api.xiaoxing.site/api/loveanimer/api.php?screen=1&format=1&type=url", {
+      signal: controller.signal
     })
-}
+      .then(res => res.text())
+      .then(url => {
+        bgUrl.value = url.trim() || `/images/background${bgRandom}.jpg`;
+      })
+      .catch(() => {
+        bgUrl.value = `/images/background${bgRandom}.jpg`;
+      })
+      .finally(() => clearTimeout(timeout));
+  }
 };
+
 
 // 图片加载完成
 const imgLoadComplete = () => {
