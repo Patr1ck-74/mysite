@@ -45,7 +45,7 @@ const changeBg = (type) => {
   } else if (type == 2) {
     bgUrl.value = "http://api.xingchenfu.xyz/API/cgq4kjsdt.php";
   } else if (type == 3) {
-  fetch("https://api.icofun.cn/api/loveanimer.php?screen=1&format=1&type=url")
+  fetch("https://api.xiaoxing.site/api/loveanimer/api.php?screen=1&format=1&type=url")
     .then(res => res.text())
     .then(url => {
       bgUrl.value = url; // 赋给 <img> 显示
