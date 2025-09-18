@@ -23,5 +23,10 @@
     "icon": "CompactDisc",
     "name": "音乐",
     "link": "https://meting-api-nine-gamma.vercel.app/api/"
+  },
+  {
+    "icon": "Images",
+    "name": "图床",
+    "link": "https://img.patr1ck.cloudns.org/"
   }
 ]
