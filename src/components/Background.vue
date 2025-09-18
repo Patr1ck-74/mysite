@@ -49,7 +49,7 @@ const changeBg = (type) => {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 5000); // 5 秒超时
 
-    fetch("https://api.xiaoxing.site/api/loveanimer/api.php?screen=1&format=1&type=url", {
+    fetch("https://api.icofun.cn/api/loveanimer.php?screen=1&format=2&type=url", {
       signal: controller.signal
     })
       .then(res => res.text())
