@@ -44,7 +44,7 @@ const changeBg = (type) => {
     bgUrl.value = "https://www.hhlqilongzhu.cn/api/tu_yitu.php";
   } else if (type === 2) {
     bgUrl.value = "http://api.xingchenfu.xyz/API/cgq4kjsdt.php";
-  } else if (type == 3) {
+  } else if (type === 3) {
     bgUrl.value = "https://api.pearktrue.cn/api/bing";
   }
 };
