@@ -7,7 +7,7 @@
             <el-radio value="0" size="large" border>本地壁纸</el-radio>
             <el-radio value="1" size="large" border>随机动漫</el-radio>
             <el-radio value="2" size="large" border>随机风景</el-radio>
-            <el-radio value="3" size="large" border>随便看看</el-radio>
+            <el-radio value="3" size="large" border>每日一图</el-radio>
           </el-radio-group>
         </div>
       </el-collapse-item>
