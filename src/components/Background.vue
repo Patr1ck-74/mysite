@@ -38,13 +38,13 @@ const bgRandom = Math.floor(Math.random() * 12 + 1);
 
 // 更换壁纸
 const changeBg = (type) => {
-  if (type == 0) {
+  if (type === 0) {
     bgUrl.value = `/images/background${bgRandom}.jpg`;
-  } else if (type == 1) {
+  } else if (type === 1) {
     bgUrl.value = "https://www.hhlqilongzhu.cn/api/tu_yitu.php";
-  } else if (type == 2) {
+  } else if (type === 2) {
     bgUrl.value = "http://api.xingchenfu.xyz/API/cgq4kjsdt.php";
-  } else if (type == 3) {
+  } else if (type === 3) {
     // fetch 增加超时和错误处理
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 5000); // 5 秒超时
@@ -56,12 +56,20 @@ const changeBg = (type) => {
       .then(url => {
         bgUrl.value = url.trim() || `/images/background${bgRandom}.jpg`;
       })
-      .catch(() => {
+      .catch(err => {
+        if (err.name === "AbortError") {
+          console.warn("请求超时");
+        } else {
+          console.error("请求失败:", err);
+        }
         bgUrl.value = `/images/background${bgRandom}.jpg`;
       })
-      .finally(() => clearTimeout(timeout));
+      .finally(() => {
+        clearTimeout(timeout);
+      });
   }
 };
+
 
 
 // 图片加载完成
