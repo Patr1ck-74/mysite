@@ -55,20 +55,33 @@ const changeBg = async (type) => {
         "https://api.icofun.cn/api/loveanimer.php?screen=1&format=1&type=url",
         { signal: controller.signal }
       );
+      let url = (await res.text()).trim();
 
-      // 直接取返回的 URL
-      const url = (await res.text()).trim();
+      // 强制只支持 jpg，其他格式直接回退默认
+      if (!url.toLowerCase().endsWith(".jpg")) {
+        console.warn("type3 返回的不是 jpg，使用默认壁纸");
+        url = defaultBg;
+      }
 
-      // 如果 URL 非空，直接赋值，否则使用默认
-      bgUrl.value = url ? url : defaultBg;
+      // 预加载图片，确保不会显示失败
+      const img = new Image();
+      img.src = url;
+      img.onload = () => {
+        bgUrl.value = url;
+      };
+      img.onerror = () => {
+        console.error("type3 图片加载失败，使用默认壁纸");
+        bgUrl.value = defaultBg;
+      };
     } catch (err) {
-      console.warn("加载壁纸失败或超时，使用默认壁纸", err);
+      console.warn("加载 type3 壁纸失败或超时，使用默认", err);
       bgUrl.value = defaultBg;
     } finally {
       clearTimeout(timeout);
     }
   }
 };
+
 
 // 图片加载完成
 const imgLoadComplete = () => {
