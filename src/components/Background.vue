@@ -47,13 +47,13 @@ const changeBg = (type) => {
   } else if (type === 3) {
     // fetch 增加超时和错误处理
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 6000); // 6 秒超时
+    const timeout = setTimeout(() => controller.abort(), 5000); // 5 秒超时
 
     fetch("https://api.icofun.cn/api/loveanimer.php?screen=1&format=1&type=url", {
-      signal: controller.signal
+      signal: controller.signal,
     })
-      .then(res => res.text())
-      .then(url => {
+      .then((res) => res.text())
+      .then((url) => {
         bgUrl.value = url.trim() || `/images/background${bgRandom}.jpg`;
       })
       .catch(() => {
@@ -62,6 +62,7 @@ const changeBg = (type) => {
       .finally(() => clearTimeout(timeout));
   }
 };
+
 
 // 图片加载完成
 const imgLoadComplete = () => {
