@@ -45,34 +45,23 @@ const changeBg = (type) => {
   } else if (type === 2) {
     bgUrl.value = "http://api.xingchenfu.xyz/API/cgq4kjsdt.php";
   } else if (type === 3) {
-// type === 3 分支
-const controller = new AbortController();
-const timeout = setTimeout(() => controller.abort(), 5000); // 5 秒超时
+    // fetch 增加超时和错误处理
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 6000); // 6 秒超时
 
-fetch("https://api.icofun.cn/api/loveanimer.php?screen=1&format=1&type=url", {
-  signal: controller.signal
-})
-  .then(res => res.text())
-  .then(url => {
-    // 判断返回的是否像个 URL，否则走兜底
-    if (url && url.startsWith("http")) {
-      bgUrl.value = url.trim();
-    } else {
-      console.warn("接口返回无效内容:", url);
-      bgUrl.value = `/images/background${bgRandom}.jpg`;
-    }
-  })
-  .catch(err => {
-    console.error("请求失败或超时:", err);
-    bgUrl.value = `/images/background${bgRandom}.jpg`;
-  })
-  .finally(() => {
-    clearTimeout(timeout);
-  });
+    fetch("https://api.icofun.cn/api/loveanimer.php?screen=1&format=1&type=url", {
+      signal: controller.signal
+    })
+      .then(res => res.text())
+      .then(url => {
+        bgUrl.value = url.trim() || `/images/background${bgRandom}.jpg`;
+      })
+      .catch(() => {
+        bgUrl.value = `/images/background${bgRandom}.jpg`;
+      })
+      .finally(() => clearTimeout(timeout));
   }
 };
-
-
 
 // 图片加载完成
 const imgLoadComplete = () => {
