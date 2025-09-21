@@ -37,32 +37,38 @@ const emit = defineEmits(["loadComplete"]);
 const bgRandom = Math.floor(Math.random() * 12 + 1);
 
 // 更换壁纸
-const changeBg = (type) => {
+const changeBg = async (type) => {
+  const defaultBg = `/images/background${bgRandom}.jpg`;
+
   if (type === 0) {
-    bgUrl.value = `/images/background${bgRandom}.jpg`;
+    bgUrl.value = defaultBg;
   } else if (type === 1) {
     bgUrl.value = "https://www.hhlqilongzhu.cn/api/tu_yitu.php";
   } else if (type === 2) {
     bgUrl.value = "http://api.xingchenfu.xyz/API/cgq4kjsdt.php";
   } else if (type === 3) {
-    // fetch 增加超时和错误处理
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 5000); // 5 秒超时
 
-    fetch("https://api.icofun.cn/api/loveanimer.php?screen=1&format=1&type=url", {
-      signal: controller.signal,
-    })
-      .then((res) => res.text())
-      .then((url) => {
-        bgUrl.value = url.trim() || `/images/background${bgRandom}.jpg`;
-      })
-      .catch(() => {
-        bgUrl.value = `/images/background${bgRandom}.jpg`;
-      })
-      .finally(() => clearTimeout(timeout));
+    try {
+      const res = await fetch(
+        "https://api.icofun.cn/api/loveanimer.php?screen=1&format=1&type=url",
+        { signal: controller.signal }
+      );
+
+      // 直接取返回的 URL
+      const url = (await res.text()).trim();
+
+      // 如果 URL 非空，直接赋值，否则使用默认
+      bgUrl.value = url ? url : defaultBg;
+    } catch (err) {
+      console.warn("加载壁纸失败或超时，使用默认壁纸", err);
+      bgUrl.value = defaultBg;
+    } finally {
+      clearTimeout(timeout);
+    }
   }
 };
-
 
 // 图片加载完成
 const imgLoadComplete = () => {
