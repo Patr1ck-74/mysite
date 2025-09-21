@@ -36,15 +36,15 @@ const emit = defineEmits(["loadComplete"]);
 // 请依据文件夹内的图片个数修改 Math.random() 后面的第一个数字
 const bgRandom = Math.floor(Math.random() * 12 + 1);
 
-// 更换壁纸
+// 更换壁纸链接
 const changeBg = (type) => {
-  if (type === 0) {
-    bgUrl.value = defaultBg;
-  } else if (type === 1) {
+  if (type == 0) {
+    bgUrl.value = `/images/background${bgRandom}.jpg`;
+  } else if (type == 1) {
     bgUrl.value = "https://www.hhlqilongzhu.cn/api/tu_yitu.php";
-  } else if (type === 2) {
+  } else if (type == 2) {
     bgUrl.value = "http://api.xingchenfu.xyz/API/cgq4kjsdt.php";
-  } else if (type === 3) {
+  } else if (type == 3) {
     bgUrl.value = "https://api.pearktrue.cn/api/bing";
   }
 };
