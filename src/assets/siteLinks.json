@@ -22,7 +22,7 @@
   {
     "icon": "CompactDisc",
     "name": "音乐",
-    "link": "https://meting-api-nine-gamma.vercel.app/api/"
+    "link": "https://music.oops.cloudns.org/api/"
   },
   {
     "icon": "Images",
