@@ -22,7 +22,7 @@
   {
     "icon": "CompactDisc",
     "name": "音乐",
-    "link": "https://music.oops.cloudns.org/api"
+    "link": "https://music.oops.cloudns.org/api/"
   },
   {
     "icon": "Images",
