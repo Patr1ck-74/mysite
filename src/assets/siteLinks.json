@@ -11,22 +11,22 @@
   },
   {
     "icon": "File",
-    "name": "文件分享",
-    "link": "https://pppatr1ck-enclosed.hf.space/"
+    "name": "Enclosed",
+    "link": "https://flie.patr1ck.qzz.io/"
   },
   {
     "icon": "Server",
     "name": "服务器",
-    "link": "https://komar1.zeabur.app/"
+    "link": "https://komari.oops.loc.cc/"
   },
   {
     "icon": "CompactDisc",
     "name": "音乐",
-    "link": "https://music.oops.cloudns.org/api/"
+    "link": "https://o.oops.loc.cc/"
   },
   {
     "icon": "Images",
     "name": "图床",
-    "link": "https://img.oops.cloudns.org/"
+    "link": "https://img.oops.loc.cc/"
   }
 ]
