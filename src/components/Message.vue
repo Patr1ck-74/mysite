@@ -123,7 +123,7 @@ watch(
       font-family: "Cookie", cursive; 
 
       .bg {
-        font-size: 5rem;
+        font-size: 7rem;
         display: flex;
         flex-wrap: wrap;
       }
