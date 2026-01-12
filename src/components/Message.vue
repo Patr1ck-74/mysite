@@ -177,55 +177,43 @@ watch(
   }
 }
 
-/* --- 核心美化部分：多色动态流光 --- */
+/* --- 强化版动态渐变核心 --- */
 
 .gradient-text .char {
   display: inline-block;
+  /* 使用你最原始的高饱和度多色阶，但配色更现代化 */
+  background: linear-gradient(
+    90deg,
+    #ff0080, #ff8c00, #40e0d0, #0080ff, #b224ff, #ff0080
+  );
+  background-size: 400% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  /* 增大背景比例，让渐变色带更窄，流动感更强 */
-  background-size: 200% auto;
-  /* 使用 linear 确保流动不卡顿，4s 速度适中 */
-  animation: gradientFlow 4s linear infinite;
+  
+  /* 统一动画，通过 template 里的 delay 产生错位 */
+  animation: gradientMove 8s linear infinite;
 }
 
-/* 方案：三组高饱和度互补色，确保每个字视觉重心不同 */
+/* 通过 nth-child 强制让每个字初始抓取的背景位置不同 */
+/* 这样即便在同一时刻，第一个字是红的，第二个字就是绿的 */
+.gradient-text .char:nth-child(2) { background-position: 25% 0; }
+.gradient-text .char:nth-child(3) { background-position: 50% 0; }
+.gradient-text .char:nth-child(4) { background-position: 75% 0; }
+.gradient-text .char:nth-child(5) { background-position: 100% 0; }
 
-/* 第一组：青翠电光 (Cyan/Lime) */
-.gradient-text .char:nth-child(3n + 1) {
-  background-image: linear-gradient(
-    90deg, 
-    #00f2fe 0%, #4facfe 25%, #00f2fe 50%, #4facfe 75%, #00f2fe 100%
-  );
-}
-
-/* 第二组：极光幻紫 (Purple/Pink) */
-.gradient-text .char:nth-child(3n + 2) {
-  background-image: linear-gradient(
-    90deg, 
-    #7028e4 0%, #e5b2ca 25%, #7028e4 50%, #e5b2ca 75%, #7028e4 100%
-  );
-}
-
-/* 第三组：落日金橙 (Orange/Gold) */
-.gradient-text .char:nth-child(3n + 3) {
-  background-image: linear-gradient(
-    90deg, 
-    #f83600 0%, #f9d423 25%, #f83600 50%, #f9d423 75%, #f83600 100%
-  );
-}
-
-/* 关键动画：通过位移 background-position 实现平滑滚动 */
-@keyframes gradientFlow {
+@keyframes gradientMove {
   0% {
-    background-position: 0% center;
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
   }
   100% {
-    background-position: -200% center; /* 向左无限滚动 */
+    background-position: 0% 50%;
   }
 }
 
-/* 保持原有的渐变移动动画兼容（如果有其他地方用到） */
+/* 渐变加载动画 */
 @keyframes fade {
   from {
     opacity: 0;
