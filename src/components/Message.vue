@@ -177,62 +177,63 @@ watch(
   }
 }
 
-/* --- 核心修改部分开始 --- */
+/* --- 核心美化部分：多色动态流光 --- */
 
-/* 基础字符样式 */
 .gradient-text .char {
   display: inline-block;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-size: 400% 400%; /* 拉大背景以实现流动效果 */
-  animation: gradientMove 6s ease infinite; /* 调整动画时长，更丝滑 */
+  /* 增大背景比例，让渐变色带更窄，流动感更强 */
+  background-size: 200% auto;
+  /* 使用 linear 确保流动不卡顿，4s 速度适中 */
+  animation: gradientFlow 4s linear infinite;
 }
 
-/* 方案：循环使用3种不同的极光/流光渐变色 
-   这样相邻的字颜色差异大，整体又很和谐
-*/
+/* 方案：三组高饱和度互补色，确保每个字视觉重心不同 */
 
-/* 第 1, 4, 7... 个字：赛博蓝紫 (Cool & Tech) */
+/* 第一组：青翠电光 (Cyan/Lime) */
 .gradient-text .char:nth-child(3n + 1) {
   background-image: linear-gradient(
-    135deg,
-    #00c6fb 0%,   /* 亮青 */
-    #005bea 50%,  /* 深蓝 */
-    #00c6fb 100%  /* 回归亮青以实现无缝循环 */
+    90deg, 
+    #00f2fe 0%, #4facfe 25%, #00f2fe 50%, #4facfe 75%, #00f2fe 100%
   );
 }
 
-/* 第 2, 5, 8... 个字：日落熔岩 (Warm & Passion) */
+/* 第二组：极光幻紫 (Purple/Pink) */
 .gradient-text .char:nth-child(3n + 2) {
   background-image: linear-gradient(
-    135deg,
-    #f83600 0%,   /* 橙红 */
-    #f9d423 50%,  /* 金黄 */
-    #f83600 100%
+    90deg, 
+    #7028e4 0%, #e5b2ca 25%, #7028e4 50%, #e5b2ca 75%, #7028e4 100%
   );
 }
 
-/* 第 3, 6, 9... 个字：霓虹幻紫 (Dreamy & Magic) */
+/* 第三组：落日金橙 (Orange/Gold) */
 .gradient-text .char:nth-child(3n + 3) {
   background-image: linear-gradient(
-    135deg,
-    #b721ff 0%,   /* 紫罗兰 */
-    #21d4fd 50%,  /* 电光蓝 */
-    #b721ff 100%
+    90deg, 
+    #f83600 0%, #f9d423 25%, #f83600 50%, #f9d423 75%, #f83600 100%
   );
 }
 
-/* 渐变移动动画 */
-@keyframes gradientMove {
+/* 关键动画：通过位移 background-position 实现平滑滚动 */
+@keyframes gradientFlow {
   0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
+    background-position: 0% center;
   }
   100% {
-    background-position: 0% 50%;
+    background-position: -200% center; /* 向左无限滚动 */
   }
 }
-/* --- 核心修改部分结束 --- */
+
+/* 保持原有的渐变移动动画兼容（如果有其他地方用到） */
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 </style>
