@@ -99,6 +99,9 @@ watch(
 </script>
 
 <style lang="scss" scoped>
+/* 1. 必须引入字体库才能生效 */
+@import url('https://fonts.googleapis.com/css2?family=Cookie&display=swap');
+
 .message {
   .logo {
     display: flex;
@@ -116,7 +119,8 @@ watch(
       width: 100%;
       padding-left: 22px;
       transform: translateY(-8px);
-      font-family: "Pacifico-Regular";
+      /* 2. 将字体改为 Cookie */
+      font-family: "Cookie", cursive; 
 
       .bg {
         font-size: 5rem;
@@ -160,7 +164,8 @@ watch(
 
         p {
           &:nth-of-type(1) {
-            font-family: "Pacifico-Regular";
+            /* 这里也同步改为 Cookie 以保持风格统一，或者你可以保留 Pacifico */
+            font-family: "Cookie", cursive; 
           }
         }
       }
@@ -177,11 +182,10 @@ watch(
   }
 }
 
-/* --- 强化版动态渐变核心 --- */
+/* --- 强化版动态渐变核心 (完全保留你原始的逻辑) --- */
 
 .gradient-text .char {
   display: inline-block;
-  /* 使用你最原始的高饱和度多色阶，但配色更现代化 */
   background: linear-gradient(
     90deg,
     #ff0080, #ff8c00, #40e0d0, #0080ff, #b224ff, #ff0080
@@ -190,12 +194,9 @@ watch(
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   
-  /* 统一动画，通过 template 里的 delay 产生错位 */
   animation: gradientMove 8s linear infinite;
 }
 
-/* 通过 nth-child 强制让每个字初始抓取的背景位置不同 */
-/* 这样即便在同一时刻，第一个字是红的，第二个字就是绿的 */
 .gradient-text .char:nth-child(2) { background-position: 25% 0; }
 .gradient-text .char:nth-child(3) { background-position: 50% 0; }
 .gradient-text .char:nth-child(4) { background-position: 75% 0; }
@@ -213,7 +214,6 @@ watch(
   }
 }
 
-/* 渐变加载动画 */
 @keyframes fade {
   from {
     opacity: 0;
