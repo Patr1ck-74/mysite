@@ -177,23 +177,62 @@ watch(
   }
 }
 
-/* 每字渐变效果 */
+/* --- 核心修改部分开始 --- */
+
+/* 基础字符样式 */
 .gradient-text .char {
   display: inline-block;
-  background: linear-gradient(
-    90deg,
-    #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff, #ff0000
-  );
-  background-size: 400% 400%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: gradientMove 10s ease infinite;
+  background-size: 400% 400%; /* 拉大背景以实现流动效果 */
+  animation: gradientMove 6s ease infinite; /* 调整动画时长，更丝滑 */
+}
+
+/* 方案：循环使用3种不同的极光/流光渐变色 
+   这样相邻的字颜色差异大，整体又很和谐
+*/
+
+/* 第 1, 4, 7... 个字：赛博蓝紫 (Cool & Tech) */
+.gradient-text .char:nth-child(3n + 1) {
+  background-image: linear-gradient(
+    135deg,
+    #00c6fb 0%,   /* 亮青 */
+    #005bea 50%,  /* 深蓝 */
+    #00c6fb 100%  /* 回归亮青以实现无缝循环 */
+  );
+}
+
+/* 第 2, 5, 8... 个字：日落熔岩 (Warm & Passion) */
+.gradient-text .char:nth-child(3n + 2) {
+  background-image: linear-gradient(
+    135deg,
+    #f83600 0%,   /* 橙红 */
+    #f9d423 50%,  /* 金黄 */
+    #f83600 100%
+  );
+}
+
+/* 第 3, 6, 9... 个字：霓虹幻紫 (Dreamy & Magic) */
+.gradient-text .char:nth-child(3n + 3) {
+  background-image: linear-gradient(
+    135deg,
+    #b721ff 0%,   /* 紫罗兰 */
+    #21d4fd 50%,  /* 电光蓝 */
+    #b721ff 100%
+  );
 }
 
 /* 渐变移动动画 */
 @keyframes gradientMove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
+/* --- 核心修改部分结束 --- */
 </style>
