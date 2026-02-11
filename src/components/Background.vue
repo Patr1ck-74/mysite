@@ -41,9 +41,9 @@ const changeBg = (type) => {
   if (type == 0) {
     bgUrl.value = `/images/background${bgRandom}.jpg`;
   } else if (type == 1) {
-    bgUrl.value = "https://www.hhlqilongzhu.cn/api/tu_yitu.php";
+    bgUrl.value = "https://www.luvbree.com/api/image/random?categoryId=1943294424160501761&isNsfw=false&isLandscape=true&type=1&imageType=compressed";
   } else if (type == 2) {
-    bgUrl.value = "http://api.xingchenfu.xyz/API/cgq4kjsdt.php";
+    bgUrl.value = "https://www.luvbree.com/api/image/random?categoryId=1927379887438401537&isNsfw=true&isLandscape=true&type=1&imageType=compressed";
   } else if (type == 3) {
     bgUrl.value = "https://api.pearktrue.cn/api/bing";
   }
