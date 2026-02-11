@@ -69,17 +69,24 @@ a:hover {
 // 卡片样式
 .cards {
   border-radius: 6px;
-  background-color: #00000040;
-  backdrop-filter: blur(10px);
+  background-color: #00000005;
+  backdrop-filter: blur(0px);
   transform: scale(1);
   transition:
     backdrop-filter 0.3s,
     transform 0.3s;
   &:hover {
     transform: scale(1.01);
+	background-color: #00000030;
   }
   &:active {
     transform: scale(0.98);
+  }
+}
+.item {
+  &:hover {
+    background-color: #00000040 !important;
+    transition: background-color 0.3s; // 加上这个，变色才丝滑
   }
 }
 
