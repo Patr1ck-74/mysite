@@ -6,7 +6,7 @@
   <!-- 主界面 -->
   <Transition name="fade" mode="out-in">
     <main id="main" v-if="store.imgLoadStatus">
-      <div class="container" v-show="!store.backgroundShow">
+      <div class="container" v-show="!store.backgroundShow && !store.contentHidden">
         <section class="all" v-show="!store.setOpenState">
           <MainLeft />
           <MainRight v-show="!store.boxOpenState" />
@@ -20,14 +20,14 @@
       <Icon
         class="menu"
         size="24"
-        v-show="!store.backgroundShow"
+        v-show="!store.backgroundShow && !store.contentHidden"
         @click="store.mobileOpenState = !store.mobileOpenState"
       >
         <component :is="store.mobileOpenState ? CloseSmall : HamburgerButton" />
       </Icon>
       <!-- 页脚 -->
       <Transition name="fade" mode="out-in">
-        <Footer class="f-ter" v-show="!store.backgroundShow && !store.setOpenState" />
+        <Footer class="f-ter" v-show="!store.backgroundShow && !store.setOpenState && !store.contentHidden" />
       </Transition>
     </main>
   </Transition>
@@ -50,9 +50,62 @@ import config from "@/../package.json";
 
 const store = mainStore();
 
+const interactiveSelector = [
+  "a",
+  "button",
+  "input",
+  "textarea",
+  "select",
+  "label",
+  "summary",
+  "audio",
+  "video",
+  "iframe",
+  "[role='button']",
+  "[tabindex]:not([tabindex='-1'])",
+  ".menu",
+  ".logo",
+  ".description",
+  ".close",
+  ".setting",
+  ".social a",
+  ".link a",
+  ".el-switch",
+  ".el-slider",
+  ".el-select",
+  ".el-input",
+  ".el-textarea",
+  ".el-button",
+  ".aplayer",
+  ".music",
+  ".item",
+  ".i-icon"
+].join(", ");
+
 // 页面宽度
 const getWidth = () => {
   store.setInnerWidth(window.innerWidth);
+};
+
+// 是否为可交互元素
+const isInteractiveTarget = (target) => {
+  if (!(target instanceof Element)) {
+    return false;
+  }
+  return Boolean(target.closest(interactiveSelector));
+};
+
+// 双击空白区域切换纯背景展示
+const handleDoubleClick = (event) => {
+  if (isInteractiveTarget(event.target)) {
+    return;
+  }
+  store.toggleContentHidden();
+  ElMessage({
+    message: `已${store.contentHidden ? "隐藏" : "恢复"}页面内容`,
+    grouping: true,
+    duration: 1800,
+  });
 };
 
 // 加载完成事件
@@ -101,6 +154,9 @@ onMounted(() => {
     }
   });
 
+  // 双击空白区域事件
+  window.addEventListener("dblclick", handleDoubleClick);
+
   // 监听当前页面宽度
   getWidth();
   window.addEventListener("resize", getWidth);
@@ -123,6 +179,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   window.removeEventListener("resize", getWidth);
+  window.removeEventListener("dblclick", handleDoubleClick);
 });
 </script>
 

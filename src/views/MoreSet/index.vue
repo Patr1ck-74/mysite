@@ -130,11 +130,19 @@ const jumpTo = (url) => {
       flex-direction: column;
       justify-content: space-between;
 
-      .logo {
+                  .logo {
         transform: translateY(-8%);
-        font-family: "Pacifico-Regular";
+        font-family: "Allura", cursive;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        text-shadow:
+          0 0 1px rgb(255 255 255 / 70%),
+          0 0 6px rgb(255 255 255 / 18%),
+          0 2px 4px rgb(0 0 0 / 18%);
+        -webkit-text-stroke: 0.6px rgb(255 255 255 / 38%);
         padding-left: 22px;
         width: 100%;
+
         height: 260px;
         min-height: 140px;
         .bg {
@@ -169,10 +177,19 @@ const jumpTo = (url) => {
         flex-direction: row;
         align-items: center;
 
-        .num {
+                        .num {
           font-size: 2rem;
-          font-family: "Pacifico-Regular";
+          font-family: "Allura", cursive;
+          font-weight: 700;
+          letter-spacing: 0.02em;
+          text-shadow:
+            0 0 1px rgb(255 255 255 / 70%),
+            0 0 6px rgb(255 255 255 / 18%),
+            0 2px 4px rgb(0 0 0 / 18%);
+          -webkit-text-stroke: 0.55px rgb(255 255 255 / 34%);
         }
+
+
 
         .github {
           width: 24px;

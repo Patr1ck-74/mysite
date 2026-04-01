@@ -7,9 +7,9 @@
       <div class="name text-hidden">
         <!-- 渐变文字，每字独立span -->
         <span class="bg gradient-text">
-          <span 
-            v-for="(char, index) in displayDomain.split('')" 
-            :key="index" 
+          <span
+            v-for="(char, index) in displayDomain.split('')"
+            :key="index"
             class="char"
             :style="{ 'animation-delay': `${index * 0.2}s` }"
           >
@@ -46,7 +46,7 @@ import { Error } from "@icon-park/vue-next";
 import { mainStore } from "@/store";
 
 const store = mainStore();
-const displayDomain = "AiYi"; // 可自定义显示文字
+const displayDomain = "Aiyi"; // 可自定义显示文字
 
 // 主页站点logo
 const siteLogo = import.meta.env.VITE_SITE_MAIN_LOGO;
@@ -99,9 +99,6 @@ watch(
 </script>
 
 <style lang="scss" scoped>
-/* 1. 必须引入字体库才能生效 */
-@import url('https://fonts.googleapis.com/css2?family=Cookie&display=swap');
-
 .message {
   .logo {
     display: flex;
@@ -115,26 +112,33 @@ watch(
       width: 120px;
     }
 
-    .name {
+                .name {
       width: 100%;
       padding-left: 22px;
       transform: translateY(-8px);
-      /* 2. 将字体改为 Cookie */
-      font-family: "Cookie", cursive; 
+      font-family: "Allura", cursive;
+      letter-spacing: 0.02em;
 
-      .bg {
+
+
+
+            .bg {
         font-size: 7rem;
         display: flex;
         flex-wrap: wrap;
+        filter: drop-shadow(0 0 1px rgb(255 255 255 / 45%)) drop-shadow(0 2px 3px rgb(0 0 0 / 16%));
       }
+
     }
 
     @media (max-width: 768px) {
       .logo-img {
         width: 100px;
       }
+
       .name {
         height: 128px;
+
         .bg {
           font-size: 4.5rem;
         }
@@ -164,8 +168,7 @@ watch(
 
         p {
           &:nth-of-type(1) {
-            /* 这里也同步改为 Cookie 以保持风格统一，或者你可以保留 Pacifico */
-            font-family: "Cookie", cursive; 
+            font-family: "Allura", cursive;
           }
         }
       }
@@ -191,24 +194,38 @@ watch(
     #ff0080, #ff8c00, #40e0d0, #0080ff, #b224ff, #ff0080
   );
   background-size: 400% 100%;
-  -webkit-background-clip: text;
+    -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  
+  text-shadow: 0 0 0.6px rgb(255 255 255 / 12%);
   animation: gradientMove 8s linear infinite;
+
 }
 
-.gradient-text .char:nth-child(2) { background-position: 25% 0; }
-.gradient-text .char:nth-child(3) { background-position: 50% 0; }
-.gradient-text .char:nth-child(4) { background-position: 75% 0; }
-.gradient-text .char:nth-child(5) { background-position: 100% 0; }
+.gradient-text .char:nth-child(2) {
+  background-position: 25% 0;
+}
+
+.gradient-text .char:nth-child(3) {
+  background-position: 50% 0;
+}
+
+.gradient-text .char:nth-child(4) {
+  background-position: 75% 0;
+}
+
+.gradient-text .char:nth-child(5) {
+  background-position: 100% 0;
+}
 
 @keyframes gradientMove {
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }
@@ -219,9 +236,11 @@ watch(
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 </style>
+

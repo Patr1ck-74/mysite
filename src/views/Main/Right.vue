@@ -36,10 +36,19 @@ const siteUrl = computed(() => {
   // flex: 1 0 0%;
   width: 50%;
   margin-left: 0.75rem;
-  .logo {
+      .logo {
     width: 100%;
-    font-family: "Pacifico-Regular";
+    font-family: "Allura", cursive;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-shadow:
+      0 0 1px rgb(255 255 255 / 70%),
+      0 0 6px rgb(255 255 255 / 18%),
+      0 2px 4px rgb(0 0 0 / 18%);
+    -webkit-text-stroke: 0.55px rgb(255 255 255 / 34%);
     font-size: 2.25rem;
+
+
     position: fixed;
     top: 6%;
     left: 0;

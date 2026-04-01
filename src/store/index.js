@@ -12,6 +12,7 @@ export const mainStore = defineStore("main", {
       musicVolume: 0, // 音乐音量;
       musicOpenState: false, // 音乐面板开启状态
       backgroundShow: false, // 壁纸展示状态
+      contentHidden: false, // 是否隐藏页面全部内容，仅展示背景
       boxOpenState: false, // 盒子开启状态
       mobileOpenState: false, // 移动端开启状态
       mobileFuncState: false, // 移动端功能区开启状态
@@ -53,6 +54,10 @@ export const mainStore = defineStore("main", {
         this.mobileFuncState = false;
       }
     },
+    // 切换页面内容显示状态
+    toggleContentHidden() {
+      this.contentHidden = !this.contentHidden;
+    },
     // 更改播放状态
     setPlayerState(value) {
       if (value) {
@@ -91,3 +96,4 @@ export const mainStore = defineStore("main", {
     ],
   },
 });
+
